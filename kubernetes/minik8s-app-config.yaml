@@ -55,7 +55,6 @@ spec:
         name: note-microservice
         resources: {}
         imagePullPolicy: Never
-status: {}
 ---
 apiVersion: v1
 kind: Service
