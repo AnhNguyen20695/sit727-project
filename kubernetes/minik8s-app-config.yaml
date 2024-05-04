@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gateway
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - image: gateway:latest
+        name: gateway
+        resources: {}
+        imagePullPolicy: Never
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: gateway
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: note-microservice
+  name: note-microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: note-microservice
+  template:
+    metadata:
+      labels:
+        app: note-microservice
+    spec:
+      containers:
+      - image: note-microservice:latest
+        name: note-microservice
+        resources: {}
+        imagePullPolicy: Never
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: note-microservice
+spec:
+  ports:
+  - port: 5001
+    targetPort: 5001
+    protocol: TCP
+  selector:
+    app: note-microservice
+  type: NodePort

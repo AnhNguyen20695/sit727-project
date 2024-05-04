@@ -1,0 +1,18 @@
+FROM python:3.11-slim-bookworm
+
+WORKDIR /usr/src/app
+COPY requirements.txt .
+COPY note.py .
+COPY models.py .
+COPY utils.py .
+COPY config.py .
+RUN pip install -r requirements.txt
+
+# Install custom public package
+RUN git clone git+https://github.com/AnhNguyen20695/sit727-project-common.git
+WORKDIR /usr/src/app/sit727-project-common/
+RUN pip install .
+WORKDIR /usr/src/app
+
+EXPOSE 5001
+ENTRYPOINT ["python3", "note.py", "-env", "prod"]
