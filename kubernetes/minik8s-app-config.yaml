@@ -38,33 +38,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: note-microservice
-  name: note-microservice
+    app: ticket-microservice
+  name: ticket-microservice
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: note-microservice
+      app: ticket-microservice
   template:
     metadata:
       labels:
-        app: note-microservice
+        app: ticket-microservice
     spec:
       containers:
-      - image: note-microservice:latest
-        name: note-microservice
+      - image: ticket-microservice:latest
+        name: ticket-microservice
         resources: {}
         imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: note-microservice
+  name: ticket-microservice
 spec:
   ports:
   - port: 5001
     targetPort: 5001
     protocol: TCP
   selector:
-    app: note-microservice
+    app: ticket-microservice
   type: NodePort

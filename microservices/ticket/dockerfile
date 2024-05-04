@@ -15,4 +15,4 @@ RUN pip install .
 WORKDIR /usr/src/app
 
 EXPOSE 5001
-ENTRYPOINT ["python3", "note.py", "-env", "prod"]
+ENTRYPOINT ["python3", "note.py", "-env", "dev"]

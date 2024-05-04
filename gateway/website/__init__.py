@@ -18,8 +18,8 @@ app = Flask(__name__)
 db = utilities.MySQL_Database(mode='primary',env=env)
 db_read = utilities.MySQL_Database(mode='read',env=env)
 app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
-from .note import notes
+from .ticket import tickets
 from .auth import auth
 
-app.register_blueprint(notes, url_prefix='/')
+app.register_blueprint(tickets, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')

@@ -1,5 +1,4 @@
-from flask import Flask, flash, request
-from models import MySQL_Database
+from flask import Flask, request
 from config import *
 from utils import *
 import utilities
@@ -23,17 +22,17 @@ db_read = utilities.MySQL_Database(mode='read',env=env)
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST': 
-        note = request.json.get('note')#Gets the note from the HTML
+        ticket = request.json.get('ticket')#Gets the ticket from the HTML
         user_id = request.json.get('user_id')
 
-        if len(note) < 1:
+        if len(ticket) < 1:
             return {
                 'is_success': False,
-                'error': 'Note is too short!'
+                'error': 'ticket is too short!'
             }
         else:
-            db.execute_query(query=f"""INSERT INTO {APP_DATABASE}.note(data,user_id)
-                                       VALUES ('{note}',{user_id})""",mode='write')
+            db.execute_query(query=f"""INSERT INTO {APP_DATABASE}.ticket(data,user_id)
+                                       VALUES ('{ticket}',{user_id})""",mode='write')
             return {
                 'is_success': True,
                 'error': 'N'
@@ -41,21 +40,21 @@ def home():
     if request.method == 'GET':
         print("Got request data: ",request.json)
         user_id = request.json.get('user_id')
-        notes = db_read.execute_query(query=f"""SELECT * FROM {APP_DATABASE}.note
+        tickets = db_read.execute_query(query=f"""SELECT * FROM {APP_DATABASE}.ticket
                                                 WHERE user_id={user_id}""")
-        notes = convert_df_tolist(notes)
+        tickets = convert_df_tolist(tickets)
         return {
-            'notes':notes
+            'tickets':tickets
         }
 
 
-@app.route('/delete-note', methods=['POST'])
-def delete_note():
-    note_id = request.json.get('note_id')
-    db.execute_query(query=f"""DELETE FROM {APP_DATABASE}.note WHERE id={note_id}""",mode='write')
+@app.route('/delete-ticket', methods=['POST'])
+def delete_ticket():
+    ticket_id = request.json.get('ticket_id')
+    db.execute_query(query=f"""DELETE FROM {APP_DATABASE}.ticket WHERE id={ticket_id}""",mode='write')
     return {
         'is_success': True,
-        'message': f'Note {note_id} deleted.'
+        'message': f'ticket {ticket_id} deleted.'
     }
 
 
